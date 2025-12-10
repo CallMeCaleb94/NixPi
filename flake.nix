@@ -1,7 +1,7 @@
 # flake.nix
 
 {
-  desciption = "RaspberryPi 3 Flake";
+  description = "RaspberryPi 3 Flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
