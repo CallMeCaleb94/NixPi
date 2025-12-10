@@ -20,7 +20,6 @@
           ./configuration.nix
           {
             # Pi 3 overrides
-            hardware.deviceTree.name = "bcm2710-rpi-3-b-plus.dtb";
             boot.kernelPackages= nixpkgs.legacyPackages.aarch64-linux.linuxPackages_rpi3;
             sdImage.compressImage = false;
           }
