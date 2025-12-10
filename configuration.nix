@@ -1,10 +1,10 @@
 # configuration
 
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [
-    ./hardware-configuration.nix
+    #./hardware-configuration.nix
   ];
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
@@ -54,15 +54,15 @@ environment.systemPackages = with pkgs; [
 
 
 # allows the use of flakes
-nix.package = pkgs.nixFlakes;
+#nix.package = pkgs.nixFlakes;
 nix.extraOptions = ''
   keep-outputs = true
-  keep-deriviations = true
+  keep-derivations = true
   experimental-features = nix-command flakes
 '';
 
 # this allows you to run `nixos-rebuild --target-host admin@this-machine` from a different host
-nix.settings.trusted.users = [ "admin" ];
+#nix.settings.trusted.users = [ "admin" ];
 
 programs.fish.enable = true;
 environment.variables = {
