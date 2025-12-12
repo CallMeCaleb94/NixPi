@@ -17,41 +17,52 @@ networking = {
   hostName = "pi";
 
   # Optional: static IP on Ethernet if you still want it
-  interfaces.end0 = {
-    ipv4.addresses = [{ address = "192.168.1.42"; prefixLength = 24; }];
-  };
-  defaultGateway = { address = "192.168.1.1"; interface = "end0"; };
-  nameservers = [ "192.168.1.1" "1.1.1.1" ];
+  #interfaces.end0 = {
+  #  ipv4.addresses = [{ address = "192.168.1.42"; prefixLength = 24; }];
+  #};
+  #defaultGateway = { address = "192.168.1.1"; interface = "end0"; };
+  #nameservers = [ "192.168.1.1" "1.1.1.1" ];
 
-  # This is the important part for Wi-Fi
-  wireless = {
-    enable = true;                                   # ← enables wpa_supplicant
-    interfaces = [ "wlan0" ];
-    networks = {
-      "MySpectrumWiFi45-5" = {
-        psk = "12345678";                 # plaintext PSK
-        # pskRaw = "abcd…";                          # if you prefer the hashed version
-        priority = 10;
-      };
-      # "GuestNetwork" = { psk = "..."; };
-    };
-  };
+  networkmanager.enable = true;
 };
+
+networking.firewall.allowedTCPPorts = [ 80 22 443 ];
+networking.firewall.allowedUDPPorts = [ 80 22 3389 ];
 
 users.users.admin = {
   isNormalUser = true;
   extraGroups = [ "wheel" ]; #Enable sudo for the users
+  hashedPassword = "$6$keqmQFnFW26JFUXG$Dl3i6zk4NuSiD3gPuD3PFW1ZMX7ihRMw0t0C.MOirIf3v8wDRGIJ4getcAs1C3l1Mo.lZ/bmf8QYQSrE37bzK0";
 };
 
 # Enable the OpenSSH daemon.
-services.openssh.enable = true;
+services = {
+  openssh.enable = true;
+  tailscale.enable = true;
+};
 
 environment.systemPackages = with pkgs; [
   neovim
   git
+  ifwifi
   wget
 ];
 
+nixpkgs.config.allowUnfree = true;
+
+programs.git = {
+  enable = true;
+  package = pkgs.git;
+  config = {
+    user = {
+      name = "CallMeCaleb94";
+      email = "calebcodes94@gmail.com";
+    };
+    init = {
+    defaultBranch = "main";
+    };
+  };
+};
 
 # allows the use of flakes
 #nix.package = pkgs.nixFlakes;
@@ -60,6 +71,14 @@ nix.extraOptions = ''
   keep-derivations = true
   experimental-features = nix-command flakes
 '';
+
+zramSwap = {
+  enable = true;
+  priority = 100;
+  memoryPercent = 50;
+  algorithm = "zstd";
+  swapDevices = 2;
+};
 
 # this allows you to run `nixos-rebuild --target-host admin@this-machine` from a different host
 #nix.settings.trusted.users = [ "admin" ];
