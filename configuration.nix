@@ -14,7 +14,7 @@
 
 # Networking settings
 networking = {
-  hostName = "pi";
+  hostName = "NixPi";
 
   # Optional: static IP on Ethernet if you still want it
   #interfaces.end0 = {
@@ -27,12 +27,15 @@ networking = {
 };
 
 networking.firewall.allowedTCPPorts = [ 80 22 443 ];
-networking.firewall.allowedUDPPorts = [ 80 22 3389 ];
+networking.firewall.allowedUDPPorts = [ 80 22 3389 41641 ];
+# Optionally allow SSH access through your Tailscale interface
+networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
-users.users.admin = {
+users.users.cpb = {
   isNormalUser = true;
-  extraGroups = [ "wheel" ]; #Enable sudo for the users
+  extraGroups = [ "wheel" "networkmanager" ];
   hashedPassword = "$6$keqmQFnFW26JFUXG$Dl3i6zk4NuSiD3gPuD3PFW1ZMX7ihRMw0t0C.MOirIf3v8wDRGIJ4getcAs1C3l1Mo.lZ/bmf8QYQSrE37bzK0";
+  shell = "${pkgs.fish}/bin/fish";
 };
 
 # Enable the OpenSSH daemon.
@@ -43,6 +46,8 @@ services = {
 
 environment.systemPackages = with pkgs; [
   neovim
+  htop
+  bottom
   git
   ifwifi
   wget
@@ -80,13 +85,12 @@ zramSwap = {
   swapDevices = 2;
 };
 
-# this allows you to run `nixos-rebuild --target-host admin@this-machine` from a different host
-#nix.settings.trusted.users = [ "admin" ];
-
 programs.fish.enable = true;
 environment.variables = {
   SHELL = "fish";
   EDITOR = "neovim";
 };
+
+system.stateVersion = "26.05";
 
 }
