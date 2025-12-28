@@ -4,7 +4,9 @@
 
 {
   imports = [
-    #./hardware-configuration.nix
+    ./hardware-configuration.nix
+    ./ollama.nix
+    #./adguard.nix
   ];
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
@@ -55,6 +57,8 @@ environment.systemPackages = with pkgs; [
 
 nixpkgs.config.allowUnfree = true;
 
+programs.mosh.enable = true;
+
 programs.git = {
   enable = true;
   package = pkgs.git;
@@ -84,6 +88,12 @@ zramSwap = {
   algorithm = "zstd";
   swapDevices = 2;
 };
+
+swapDevices = [ {
+  device = "/var/lib/swapfile";
+  size = 2048; # 2GB
+  priority = 10; # Lower priority than zRAM (100)
+} ];
 
 programs.fish.enable = true;
 environment.variables = {

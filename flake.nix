@@ -15,13 +15,14 @@
     nixosConfigurations."pi" = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
       modules = [
-          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          #"${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
           nixos-hardware.nixosModules.raspberry-pi-3
           ./configuration.nix
+	  ./hardware-configuration.nix
           {
             # Pi 3 overrides
             boot.kernelPackages= nixpkgs.legacyPackages.aarch64-linux.linuxPackages_rpi3;
-            sdImage.compressImage = false;
+            #sdImage.compressImage = false;
           }
         ];
       };
