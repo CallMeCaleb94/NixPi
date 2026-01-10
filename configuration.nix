@@ -5,7 +5,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./ollama.nix
+    #./pihole.nix
+    #./ollama.nix
     #./adguard.nix
   ];
 
@@ -52,6 +53,9 @@ environment.systemPackages = with pkgs; [
   bottom
   git
   ifwifi
+  #proton-vpn-cli
+  snitch
+  tmux
   wget
 ];
 
