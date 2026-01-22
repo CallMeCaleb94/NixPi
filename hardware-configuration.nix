@@ -8,13 +8,18 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "usbhid" ];
+  boot.initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+      fsType = "ext4";
+    };
+
+  fileSystems."/home/cpb/Jelly" =
+    { device = "/dev/disk/by-uuid/1c93db2d-db84-4b09-9302-02327edce75c";
       fsType = "ext4";
     };
 

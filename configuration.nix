@@ -6,6 +6,8 @@
   imports = [
     ./hardware-configuration.nix
     #./pihole.nix
+    ./neovim.nix
+    ./jelly.nix
     #./ollama.nix
     #./adguard.nix
   ];
@@ -104,6 +106,7 @@ environment.variables = {
   SHELL = "fish";
   EDITOR = "neovim";
 };
+
 
 system.stateVersion = "26.05";
 
