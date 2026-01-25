@@ -50,15 +50,18 @@ services = {
 };
 
 environment.systemPackages = with pkgs; [
+  aria2
   neovim
   htop
   bottom
   git
   ifwifi
+  nettools
   #proton-vpn-cli
   snitch
   tmux
   wget
+  yt-dlp
 ];
 
 nixpkgs.config.allowUnfree = true;
@@ -66,7 +69,7 @@ nixpkgs.config.allowUnfree = true;
 programs.mosh.enable = true;
 
 programs.git = {
-  enable = true;
+  enable = true; 
   package = pkgs.git;
   config = {
     user = {
@@ -75,6 +78,9 @@ programs.git = {
     };
     init = {
     defaultBranch = "main";
+    };
+    core = {
+      editor = "${pkgs.neovim}/bin/nvim";
     };
   };
 };
@@ -104,9 +110,11 @@ swapDevices = [ {
 programs.fish.enable = true;
 environment.variables = {
   SHELL = "fish";
-  EDITOR = "neovim";
+  EDITOR = "nvim";
+  VISUAL = "nvim";
 };
 
+programs.neovim.defaultEditor = true;
 
 system.stateVersion = "26.05";
 
