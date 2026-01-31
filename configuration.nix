@@ -57,7 +57,8 @@ environment.systemPackages = with pkgs; [
   git
   ifwifi
   nettools
-  #proton-vpn-cli
+  proton-vpn-cli
+  sshfs
   snitch
   tmux
   wget
