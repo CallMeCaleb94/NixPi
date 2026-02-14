@@ -7,15 +7,26 @@
     ./hardware-configuration.nix
     #./pihole.nix
     ./neovim.nix
+    ./nginx.nix
     ./jelly.nix
     #./ollama.nix
     #./adguard.nix
   ];
 
+  hardware.enableRedistributableFirmware = false;
+  hardware.firmware = [ pkgs.raspberrypiWirelessFirmware ];
+
+  networking.networkmanager.wifi.powersave = false;
+
+  boot.kernelParams = [ "brcmfmac.feature_disable=0x82000" ];
+
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of the /boot/extlinux/extlinux.conf
   boot.loader.generic-extlinux-compatible.enable = true;
+
+  # Set your time zone.
+  time.timeZone = "America/Detroit";
 
 # Networking settings
 networking = {
@@ -43,6 +54,19 @@ users.users.cpb = {
   shell = "${pkgs.fish}/bin/fish";
 };
 
+
+# Sets tmux to launch
+ programs.fish.shellInit = ''
+    if status is-interactive
+      if not tmux info &>/dev/null
+        if test -z "$TMUX"
+          exec tmux
+        end
+      end
+    end
+  '';
+
+
 # Enable the OpenSSH daemon.
 services = {
   openssh.enable = true;
@@ -58,6 +82,9 @@ environment.systemPackages = with pkgs; [
   ifwifi
   nettools
   proton-vpn-cli
+  python313Packages.aria2p
+  ranger
+  spotdl
   sshfs
   snitch
   tmux
@@ -85,7 +112,7 @@ programs.git = {
     };
   };
 };
-
+#
 # allows the use of flakes
 #nix.package = pkgs.nixFlakes;
 nix.extraOptions = ''
