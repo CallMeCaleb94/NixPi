@@ -8,7 +8,8 @@ services.nginx = {
   recommendedProxySettings = true;
   recommendedTlsSettings = true;
   
-  virtualHosts."jellyfin.local" = {
+  virtualHosts."jellyfin.me" = {
+    default = true;  
     # If you have a real domain, put it here. Otherwise, use .local
     extraConfig = ''
       client_max_body_size 20M; # Allows large metadata/poster uploads
@@ -30,7 +31,19 @@ services.avahi = {
     enable = true;
     addresses = true;
     workstation = true;
+    userServices = true;
   };
+  extraServiceFiles.jellyfin = ''
+    <?xml version="1.0" standalone='no'?>
+    <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+    <service-group>
+      <name replace-wildcards="yes">jellyfin</name>
+      <service>
+        <type>_http._tcp</type>
+        <port>80</port>
+      </service>
+    </service-group>
+  '';
 };
 
 }

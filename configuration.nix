@@ -7,7 +7,7 @@
     ./hardware-configuration.nix
     #./pihole.nix
     ./neovim.nix
-    ./nginx.nix
+    #./nginx.nix
     ./jelly.nix
     #./ollama.nix
     #./adguard.nix
