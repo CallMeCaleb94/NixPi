@@ -2,6 +2,9 @@
 
 After editing the flake and config files you build with:
 
+*Note*: The flake will need editing in order to compile on an x86_64 host,
+many packages cannot be built during the compiling process so it is wise to comment out packages until you're builing on the aarch64 host.
+
 ```bash
 nix run nixpkgs#nixos-generators -- -f sd-aarch64 --flake .#pi --system aarch64-linux -o ./pi.sd --show-trace
 ```

@@ -6,14 +6,14 @@
   imports = [
     ./hardware-configuration.nix
     #./pihole.nix
-    ./neovim.nix
+    #./neovim.nix
     #./nginx.nix
-    ./jelly.nix
+    #./jelly.nix
     #./ollama.nix
     #./adguard.nix
   ];
 
-  hardware.enableRedistributableFirmware = false;
+  #hardware.enableRedistributableFirmware = false;
   hardware.firmware = [ pkgs.raspberrypiWirelessFirmware ];
 
   networking.networkmanager.wifi.powersave = false;
@@ -50,46 +50,47 @@ networking.firewall.trustedInterfaces = [ "tailscale0" ];
 users.users.cpb = {
   isNormalUser = true;
   extraGroups = [ "wheel" "networkmanager" ];
-  hashedPassword = "$6$keqmQFnFW26JFUXG$Dl3i6zk4NuSiD3gPuD3PFW1ZMX7ihRMw0t0C.MOirIf3v8wDRGIJ4getcAs1C3l1Mo.lZ/bmf8QYQSrE37bzK0";
-  shell = "${pkgs.fish}/bin/fish";
+  initialPassword = "password";
+  #hashedPassword = ''$6$keqmQFnFW26JFUXG$Dl3i6zk4NuSiD3gPuD3PFW1ZMX7ihRMw0t0C.MOirIf3v8wDRGIJ4getcAs1C3l1Mo.lZ/bmf8QYQSrE37bzK0'';
+  #shell = "${pkgs.fish}/bin/fish";
 };
 
 
 # Sets tmux to launch
- programs.fish.shellInit = ''
-    if status is-interactive
-      if not tmux info &>/dev/null
-        if test -z "$TMUX"
-          exec tmux
-        end
-      end
-    end
-  '';
+ #programs.fish.shellInit = ''
+  #  if status is-interactive
+   #   if not tmux info &>/dev/null
+    #    if test -z "$TMUX"
+     #     exec tmux
+    #    end
+   #   end
+  #  end
+ # '';
 
 
 # Enable the OpenSSH daemon.
 services = {
-  openssh.enable = true;
-  tailscale.enable = true;
+  #openssh.enable = true;
+  #tailscale.enable = true;
 };
 
 environment.systemPackages = with pkgs; [
-  aria2
-  neovim
-  htop
-  bottom
-  git
-  ifwifi
-  nettools
-  proton-vpn-cli
-  python313Packages.aria2p
-  ranger
-  spotdl
-  sshfs
-  snitch
-  tmux
-  wget
-  yt-dlp
+#  aria2
+#  neovim
+#  htop
+#  bottom
+#  git
+#  ifwifi
+#  nettools
+#  proton-vpn-cli
+#  python313Packages.aria2p
+#  ranger
+#  spotdl
+#  sshfs
+ # snitch
+ # tmux
+ # wget
+#  yt-dlp
 ];
 
 nixpkgs.config.allowUnfree = true;
@@ -107,9 +108,9 @@ programs.git = {
     init = {
     defaultBranch = "main";
     };
-    core = {
-      editor = "${pkgs.neovim}/bin/nvim";
-    };
+    #core = {
+     # editor = "${pkgs.neovim}/bin/nvim";
+    #};
   };
 };
 #
@@ -129,20 +130,20 @@ zramSwap = {
   swapDevices = 2;
 };
 
-swapDevices = [ {
-  device = "/var/lib/swapfile";
-  size = 2048; # 2GB
-  priority = 10; # Lower priority than zRAM (100)
-} ];
+#swapDevices = [ {
+#  device = "/var/lib/swapfile";
+#  size = 2048; # 2GB
+#  priority = 10; # Lower priority than zRAM (100)
+#} ];
 
-programs.fish.enable = true;
-environment.variables = {
-  SHELL = "fish";
-  EDITOR = "nvim";
-  VISUAL = "nvim";
-};
+#programs.fish.enable = true;
+#environment.variables = {
+  #SHELL = "fish";
+ # EDITOR = "nvim";
+ # VISUAL = "nvim";
+#};
 
-programs.neovim.defaultEditor = true;
+#programs.neovim.defaultEditor = true;
 
 system.stateVersion = "26.05";
 
