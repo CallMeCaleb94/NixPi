@@ -70,7 +70,7 @@ users.users.cpb = {
 
 # Enable the OpenSSH daemon.
 services = {
-  #openssh.enable = true;
+  openssh.enable = true;
   #tailscale.enable = true;
 };
 
@@ -122,13 +122,13 @@ nix.extraOptions = ''
   experimental-features = nix-command flakes
 '';
 
-zramSwap = {
-  enable = true;
-  priority = 100;
-  memoryPercent = 50;
-  algorithm = "zstd";
-  swapDevices = 2;
-};
+#zramSwap = {
+ # enable = true;
+ # priority = 100;
+ # memoryPercent = 50;
+ # algorithm = "zstd";
+ # swapDevices = 2;
+#};
 
 #swapDevices = [ {
 #  device = "/var/lib/swapfile";
